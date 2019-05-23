@@ -1,9 +1,9 @@
-#AWS Scenario 1 - VPC With Public Subnet
+# AWS Scenario 1 - VPC With Public Subnet
 
 ![alt text](Scenario1.png)
 
 
-####Description
+#### Description
 The configuration for this scenario includes the following:
 
 * A virtual private cloud (VPC) with a size /16 IPv4 CIDR block (example: 10.0.0.0/16). This provides 65,536 private IPv4 addresses.
@@ -16,7 +16,7 @@ The configuration for this scenario includes the following:
 
 * A custom route table associated with the subnet. The route table entries enable instances in the subnet to use IPv4 to communicate with other instances in the VPC, and to communicate directly over the Internet. A subnet that's associated with a route table that has a route to an Internet gateway is known as a public subnet.
 
-####Commands
+#### Commands
 To run the terraform script you need to execute the following command:
 
 `terraform apply`
