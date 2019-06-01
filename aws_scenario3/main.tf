@@ -65,7 +65,7 @@ resource "aws_route_table" "scenario3_public" {
   vpc_id = "${aws_vpc.scenario3.id}"
 
   route {
-    cidr_block = "10.0.0.0/0"
+    cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.scenario3.id}"
   }
 
@@ -151,6 +151,13 @@ resource "aws_security_group" "scenario3_public" {
     cidr_blocks =  ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port = -1
+    to_port = -1
+    protocol = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "terraform_scenario3_webserver"
   }
@@ -197,6 +204,13 @@ resource "aws_security_group" "scenario3_webserver" {
     cidr_blocks =  ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port = -1
+    to_port = -1
+    protocol = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "terraform_scenario3_webserver"
   }
@@ -232,6 +246,13 @@ resource "aws_security_group" "scenario3_database" {
     to_port = 65535
     protocol = "tcp"
     cidr_blocks =  ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = -1
+    to_port = -1
+    protocol = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   vpc_id = "${aws_vpc.scenario3.id}"
