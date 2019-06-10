@@ -2,11 +2,12 @@ variable "region" {
   default = "eu-west-1"
 }
 
-availability_zones = ["eu-west-1a", "eu-west-1b"]
+variable "availability_zones" {
+  type = "list"
+  default = ["eu-west-1a", "eu-west-1b"]
+}
 
-amazon_linux_ami = "ami-06e710681e5ee07aa"
-
-variable "ami" {
+variable "basic_amazon_linux_ami" {
   description = "basic amazon linux ami"
   default = "ami-06e710681e5ee07aa"
 }
@@ -16,39 +17,24 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
-variable "az1_public_subnet_cidr" {
-  description = "CIDR for the Public Subnet"
-  default = "10.0.0.0/24"
+variable "public_bastion_subnet_cidrs" {
+  type = "list"
+  description = "CIDR for the bastion servers"
+  default = ["10.0.0.0/24","10.0.3.0/24"]
 }
 
-
-variable "az1_webserver_subnet_cidr" {
-  description = "CIDR for the Webserver Subnet"
-  default = "10.0.1.0/24"
+variable "private_webserver_subnet_cidrs" {
+  type = "list"
+  description = "CIDR for the webserver"
+  default = ["10.0.1.0/24","10.0.4.0/24"]
 }
 
-
-variable "az1_database_subnet_cidr" {
-  description = "CIDR for the database Subnet"
-  default = "10.0.2.0/24"
+variable "private_database_subnet_cidrs" {
+  type = "list"
+  description = "CIDR for the database servers"
+  default = ["10.0.2.0/24","10.0.5.0/24"]
 }
 
-variable "az2_public_subnet_cidr" {
-  description = "CIDR for the Public Subnet"
-  default = "10.0.3.0/24"
-}
-
-
-variable "az2_webserver_subnet_cidr" {
-  description = "CIDR for the Webserver Subnet"
-  default = "10.0.4.0/24"
-}
-
-
-variable "az2_database_subnet_cidr" {
-  description = "CIDR for the database Subnet"
-  default = "10.0.5.0/24"
-}
 
 variable "key_path" {
   description = "SSH Public Key path"
