@@ -80,14 +80,16 @@ resource "aws_route_table_association" "scenario4_public" {
 
 #-------------------- nat gateway -------------------------
 
-/*
+
 resource "aws_eip" "scenario4_nat" {
+  count = "${length(var.availability_zones)}"
   vpc = true
 }
 
 resource "aws_nat_gateway" "scenario4" {
-  allocation_id = "${aws_eip.scenario4_nat.id}"
-  subnet_id = "${aws_subnet.scenario4_public_bastion.id}"
+  count = "${length(var.availability_zones)}"
+  allocation_id = "${element(aws_eip.scenario4_nat.*.id, count.index)}"
+  subnet_id = "${element(aws_subnet.scenario4_public_bastion.*.id, count.index)}"
   depends_on = ["aws_subnet.scenario4_public_bastion"]
 
   tags {
@@ -96,11 +98,12 @@ resource "aws_nat_gateway" "scenario4" {
 }
 
 resource "aws_route_table" "scenario4_private" {
+  count = "${length(var.availability_zones)}"
   vpc_id = "${aws_vpc.scenario4.id}"
 
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = "${aws_nat_gateway.scenario4.id}"
+    nat_gateway_id = "${element(aws_nat_gateway.scenario4.*.id, count.index)}"
   }
 
   tags {
@@ -109,13 +112,13 @@ resource "aws_route_table" "scenario4_private" {
 }
 
 resource "aws_route_table_association" "scenario4_webserver" {
-  subnet_id = "${aws_subnet.scenario4_private_webserver.id}"
-  route_table_id = "${aws_route_table.scenario4_private.id}"
+  count = "${length(var.availability_zones)}"
+  subnet_id = "${element(aws_subnet.scenario4_private_webserver.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.scenario4_private.*.id, count.index)}"
 }
 
 resource "aws_route_table_association" "scenario4_database" {
-  subnet_id = "${aws_subnet.scenario4_private_database.id}"
-  route_table_id = "${aws_route_table.scenario4_private.id}"
+  count = "${length(var.availability_zones)}"
+  subnet_id = "${element(aws_subnet.scenario4_private_database.*.id, count.index)}"
+  route_table_id = "${element(aws_route_table.scenario4_private.*.id, count.index)}"
 }
-*/
-
